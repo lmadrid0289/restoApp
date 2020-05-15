@@ -15,13 +15,13 @@ class MenuController extends Controller
     {
         $restoId = $id;
         $restoService = new MenuService;
-        $menus = $restoService->getMenuWithCategories($restoId);
+        $menus = $restoService->getMenuWithCategory($restoId);
 
         if (!$menus) {
             abort(400, 'Wrong resto');
         }
 
-        return view('menus.menu-index')
+        return view('menu.menu-index')
             ->with('restoId', $restoId)
             ->with('menus', $menus);
     }

@@ -27,6 +27,7 @@ class HomeController extends Controller
      */
     public function index(MenuService $service, RestoService $restoService)
     {
+       
         $restoId = 1;
         $menus = $service->getMenuWithCategory($restoId);
 

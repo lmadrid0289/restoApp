@@ -1,5 +1,5 @@
 <template>
- <div class="resto_add_form_wrapper">
+  <div class="resto_add_form_wrapper">
     <h3>Add a new Restaurant</h3>
 
     <div class="form-group">
@@ -32,10 +32,26 @@
     <button class="btn btn-primary" @click="handleAddButton">Add</button>
     <button class="btn btn-warning" @click="handleCancelButton">Cancel</button>
   </div>
-
 </template>
+
 <script>
 export default {
-    
+  data() {
+    return {
+      resto: this.basicResto()
+    }
+  },
+  methods: {
+    basicResto() {
+      return { name: "", location: "", tables: 0 }
+    },
+    handleAddButton() {
+      this.$emit('addRestoEvent', this.resto);
+    },
+    handleCancelButton() {
+      this.resto = this.basicResto();
+      this.$emit('modalCancel');
+    }
+  }
 }
 </script>

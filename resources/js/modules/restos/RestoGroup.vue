@@ -26,7 +26,7 @@
             </div>
           </template>
         </card-component>
-        <modal name="add-new-resto" height="55%">
+        <modal name="add-new-resto"  height="55%">
           <div class="container-padding">
             <RestoAddForm
               @addRestoEvent="handleSaveResto"
@@ -36,9 +36,6 @@
       </div>
     </div>
   </div>
-
- 
-
 </template>
 
 <script>
@@ -46,26 +43,43 @@ import RestoAddForm from './RestoAddForm.vue';
 import axios from 'axios';
 
 export default {
-
-    props:['restos'],
-    created(){
-      console.log('this.restos.length: ',this.restos.length);
-    },
-    computed: {
-      showAddForm(){
-        return (this.restos.length < 5) ? true : false;
-      }
-    },
-    data(){
-      return{}
-    },
-    
-    methods: {
-      handleAddNewResto(){
-        this.$modal.show('add-new-resto');
-      }
+  components: {
+    RestoAddForm
+  },
+  props: ['restos'],
+  created() {
+    this.localResto = this.restos;
+  },
+  computed: {
+    showAddForm() {
+      return (this.localResto.length < 5) ? true : false;
     }
-
+  },
+  data() {
+    return {
+      localResto: []
+    }
+  },
+  methods: {
+    handleAddNewResto() {
+      this.$modal.show('add-new-resto');
+    },
+    handleCancelResto() {
+      this.$modal.hide('add-new-resto');
+    },
+    handleSaveResto(restoData) {
+      axios.post('/api/resto', restoData).then(response => this.localResto.unshift(response.data));
+      this.$modal.hide('add-new-resto');
+    }
+  }
 }
-
 </script>
+
+<style lang="scss" scoped>
+  .add-button-wrapper {
+    text-align: center;
+  }
+  .content-container {
+    height: 70px;
+  }
+</style>
